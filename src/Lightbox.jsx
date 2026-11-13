@@ -98,11 +98,11 @@ const styles = {
 };
 
 const defaultTranslations = {
-  "ui.close": "Close",
-  "ui.screenshotPreview": "Image preview",
-  "ui.previousImage": "Previous image",
-  "ui.nextImage": "Next image",
-  "ui.imageDescriptionNotFound": "Image description not found",
+  "yoybox.close": "Close",
+  "yoybox.screenshotPreview": "Image preview",
+  "yoybox.previousImage": "Previous image",
+  "yoybox.nextImage": "Next image",
+  "yoybox.imageDescriptionNotFound": "Image description not found",
 };
 
 const defaultT = (key) => defaultTranslations[key] ?? key;
@@ -127,7 +127,7 @@ export function Lightbox({
   const image = images[activeIndex];
   const isActive = isOpen && Boolean(image);
   const imageDescription =
-    image?.alt?.trim() || t("ui.imageDescriptionNotFound");
+    image?.alt?.trim() || t("yoybox.imageDescriptionNotFound");
   const canNavigatePrevious = activeIndex > 0;
   const canNavigateNext = activeIndex < images.length - 1;
   const panelRef = useFocusTrap(isActive);
@@ -182,12 +182,12 @@ export function Lightbox({
       role="dialog"
       tabIndex={-1}
       aria-modal="true"
-      aria-label={`${t("ui.screenshotPreview")}: ${title || imageDescription}`}
+      aria-label={`${t("yoybox.screenshotPreview")}: ${title || imageDescription}`}
     >
       <Backdrop onClick={onClose} />
       <div className={css(styles.panel)}>
         <div className={css(styles.header)}>
-          <CloseButton label={t("ui.close")} onClick={onClose} />
+          <CloseButton label={t("yoybox.close")} onClick={onClose} />
         </div>
         <div className={css(styles.image)}>
           <ImageViewer
@@ -200,7 +200,7 @@ export function Lightbox({
         <div className={css(styles.footer)}>
           <ArrowButton
             direction="previous"
-            aria-label={t("ui.previousImage")}
+            aria-label={t("yoybox.previousImage")}
             disabled={!canNavigatePrevious}
             onClick={() => navigate(-1)}
           />
@@ -209,7 +209,7 @@ export function Lightbox({
           </div>
           <ArrowButton
             direction="next"
-            aria-label={t("ui.nextImage")}
+            aria-label={t("yoybox.nextImage")}
             disabled={!canNavigateNext}
             onClick={() => navigate(1)}
           />

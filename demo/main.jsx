@@ -8,11 +8,11 @@ const images = [
   { src: "/portrait.svg", alt: "Abstract portrait composition" },
 ];
 const translations = {
-  "ui.close": "Zatvoriť",
-  "ui.screenshotPreview": "Náhľad obrázka",
-  "ui.previousImage": "Predchádzajúci obrázok",
-  "ui.nextImage": "Ďalší obrázok",
-  "ui.imageDescriptionNotFound": "Popis obrázka sa nenašiel",
+  "yoybox.close": "Zatvoriť",
+  "yoybox.screenshotPreview": "Náhľad obrázka",
+  "yoybox.previousImage": "Predchádzajúci obrázok",
+  "yoybox.nextImage": "Ďalší obrázok",
+  "yoybox.imageDescriptionNotFound": "Popis obrázka sa nenašiel",
 };
 const t = (key) => translations[key] ?? key;
 
@@ -29,7 +29,7 @@ export function Demo() {
   return (
     <main>
       <p className="eyebrow">Standalone React component</p>
-      <h1>Lightbox</h1>
+      <h1>Yoybox</h1>
       <p>
         Open an image. Browse with the arrow keys or swipe; pinch to zoom on
         mobile. Press Escape to close the preview.

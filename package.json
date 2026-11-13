@@ -1,9 +1,27 @@
 {
-  "name": "@miro/react-lightbox",
+  "name": "react-yoybox",
   "version": "0.1.0",
-  "description": "A standalone React image lightbox with touch gestures, translations, and CSS variable themes.",
+  "description": "Yoybox: a standalone React image lightbox with touch gestures, translations, and CSS variable themes.",
   "type": "module",
-  "license": "UNLICENSED",
+  "license": "MIT",
+  "author": "mirozzzlav (https://github.com/mirozzzlav)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mirozzzlav/yoybox.git"
+  },
+  "homepage": "https://github.com/mirozzzlav/yoybox#readme",
+  "bugs": {
+    "url": "https://github.com/mirozzzlav/yoybox/issues"
+  },
+  "keywords": [
+    "react",
+    "lightbox",
+    "gallery",
+    "image-viewer",
+    "pinch-zoom",
+    "touch",
+    "typescript"
+  ],
   "files": [
     "dist"
   ],

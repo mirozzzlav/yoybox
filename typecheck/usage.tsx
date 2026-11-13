@@ -1,5 +1,5 @@
-import { Lightbox, defaultLightboxTheme } from "@miro/react-lightbox";
-import type { LightboxImage, LightboxTheme } from "@miro/react-lightbox";
+import { Lightbox, defaultLightboxTheme } from "react-yoybox";
+import type { LightboxImage, LightboxTheme } from "react-yoybox";
 import type { ReactNode } from "react";
 
 const images: readonly LightboxImage[] = [{ src: "/photo.jpg", alt: "Photo" }];

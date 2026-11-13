@@ -12,11 +12,11 @@ export interface LightboxImage {
 }
 
 export type LightboxTranslationKey =
-  | "ui.close"
-  | "ui.screenshotPreview"
-  | "ui.previousImage"
-  | "ui.nextImage"
-  | "ui.imageDescriptionNotFound";
+  | "yoybox.close"
+  | "yoybox.screenshotPreview"
+  | "yoybox.previousImage"
+  | "yoybox.nextImage"
+  | "yoybox.imageDescriptionNotFound";
 
 export type LightboxTheme = CSSProperties & {
   [variable: `--lightbox-${string}`]: string | number | undefined;

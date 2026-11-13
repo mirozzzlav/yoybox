@@ -1,13 +1,12 @@
-# React Lightbox
+# Yoybox
 
-A standalone React lightbox extracted from a portfolio project. It includes
+Yoybox is a standalone React image lightbox extracted from a portfolio project. It includes
 keyboard navigation, swipe gestures, pinch zoom (1×–3×), panning for zoomed images,
 a focus trap, blurred placeholders, translations, and CSS variable themes.
 No router or i18n provider is required.
 
-The working package name is `@miro/react-lightbox`. The project has not been
-published yet; choose an available package name/scope and a license before a
-public release. It currently uses `license: "UNLICENSED"`.
+The package name is `react-yoybox`. The project has not been published yet.
+Licensed under the [MIT License](LICENSE).
 
 ## Development
 
@@ -35,12 +34,12 @@ needed.
 After building and packing the project, install the archive in another project:
 
 ```sh
-npm install /path/to/miro-react-lightbox-0.1.0.tgz
+npm install /path/to/react-yoybox-0.1.0.tgz
 ```
 
 ```jsx
 import { useState } from "react";
-import { Lightbox } from "@miro/react-lightbox";
+import { Lightbox } from "react-yoybox";
 
 const images = [
   {
@@ -96,24 +95,24 @@ supported.
 
 The `t` function receives these stable keys:
 
-| Key                           | Default text                |
-| ----------------------------- | --------------------------- |
-| `ui.close`                    | Close                       |
-| `ui.screenshotPreview`        | Image preview               |
-| `ui.previousImage`            | Previous image              |
-| `ui.nextImage`                | Next image                  |
-| `ui.imageDescriptionNotFound` | Image description not found |
+| Key                               | Default text                |
+| --------------------------------- | --------------------------- |
+| `yoybox.close`                    | Close                       |
+| `yoybox.screenshotPreview`        | Image preview               |
+| `yoybox.previousImage`            | Previous image              |
+| `yoybox.nextImage`                | Next image                  |
+| `yoybox.imageDescriptionNotFound` | Image description not found |
 
 For example, customize the English labels as follows, or replace the values with
 translations for your application's language:
 
 ```jsx
 const translations = {
-  "ui.close": "Close gallery",
-  "ui.screenshotPreview": "Photo preview",
-  "ui.previousImage": "Previous photo",
-  "ui.nextImage": "Next photo",
-  "ui.imageDescriptionNotFound": "No photo description available",
+  "yoybox.close": "Close gallery",
+  "yoybox.screenshotPreview": "Photo preview",
+  "yoybox.previousImage": "Previous photo",
+  "yoybox.nextImage": "Next photo",
+  "yoybox.imageDescriptionNotFound": "No photo description available",
 };
 const t = (key) => translations[key] ?? key;
 
@@ -161,7 +160,7 @@ around the placeholder; avoid adding interactive elements or duplicate IDs to it
 ## Theming
 
 ```jsx
-import { Lightbox, defaultLightboxTheme } from "@miro/react-lightbox";
+import { Lightbox, defaultLightboxTheme } from "react-yoybox";
 
 <Lightbox
   images={images}

@@ -134,10 +134,10 @@ test("close button and backdrop call onClose", async () => {
 test("translations use stable keys and update while open", async () => {
   const t = (key) => `SK:${key}`;
   await render({ t, images: [{ src: "/first.jpg" }] });
-  assert.ok(button("SK:ui.close"));
+  assert.ok(button("SK:yoybox.close"));
   assert.equal(
     document.querySelector("img").alt,
-    "SK:ui.imageDescriptionNotFound",
+    "SK:yoybox.imageDescriptionNotFound",
   );
   await render({ t: undefined });
   assert.ok(button("Close"));
