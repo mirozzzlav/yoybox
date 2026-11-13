@@ -1,0 +1,55 @@
+{
+  "name": "@miro/react-lightbox",
+  "version": "0.1.0",
+  "description": "A standalone React image lightbox with touch gestures, translations, and CSS variable themes.",
+  "type": "module",
+  "license": "UNLICENSED",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "scripts": {
+    "dev": "vite demo --config demo/vite.config.js --host 127.0.0.1",
+    "build": "vite build && node scripts/copy-types.mjs",
+    "build:demo": "vite build demo --config demo/vite.config.js --outDir ../demo-dist",
+    "test": "npm run build && node --test",
+    "lint": "eslint .",
+    "format:check": "prettier . --check",
+    "check": "npm run lint && npm run format:check && npm test && npm run typecheck && npm run build:demo",
+    "prepack": "npm run build",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0"
+  },
+  "dependencies": {
+    "@emotion/css": "^11.13.5"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.1",
+    "eslint": "^10.11.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.7",
+    "globals": "^17.12.0",
+    "jsdom": "^26.1.0",
+    "prettier": "^3.9.8",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.0"
+  }
+}
