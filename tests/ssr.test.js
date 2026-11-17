@@ -2,14 +2,15 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { createElement } from "react";
 import { renderToString } from "react-dom/server";
-import { Lightbox, defaultLightboxTheme } from "../dist/index.js";
+import { Yoybox, Lightbox, defaultLightboxTheme } from "../dist/index.js";
 
 test("the built package can render on the server without a DOM", () => {
+  assert.equal(Lightbox, Yoybox);
   for (const isOpen of [false, true]) {
     assert.equal(
       renderToString(
-        createElement(Lightbox, {
-          images: [{ src: "/photo.jpg", alt: "Photograph" }],
+        createElement(Yoybox, {
+          media: [{ src: "/photo.jpg", alt: "Photograph" }],
           isOpen,
           onClose() {},
         }),

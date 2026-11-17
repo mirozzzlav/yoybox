@@ -5,11 +5,13 @@ import { css, cx } from "@emotion/css";
 import { mobileQuery } from "./mediaQueries.js";
 import { Backdrop } from "./Backdrop.jsx";
 import { ImageViewer } from "./ImageViewer.jsx";
+import { YouTubeViewer } from "./YouTubeViewer.jsx";
 import { ArrowButton } from "./ArrowButton.jsx";
 import { CloseButton } from "./CloseButton.jsx";
 import { Description } from "./Description.jsx";
 import { defaultLightboxTheme } from "./theme.js";
 import { clamp } from "./imageGeometry.js";
+import { getYouTubeVideoId } from "./media.js";
 
 const styles = {
   root: {
@@ -110,26 +112,32 @@ const defaultT = (key) => defaultTranslations[key] ?? key;
 // ImageWrapper receives only an <img> as children. The lightbox owns the
 // viewer, gestures, controls, and gallery metadata.
 // t receives translation keys; English defaults allow standalone use.
-export function Lightbox({
+export function Yoybox({
   className,
-  images = [],
+  media = [],
   initialImageIndex = 0,
   isOpen,
   onClose,
   title,
+  showCaption = true,
   ImageWrapper,
   t = defaultT,
   theme,
 }) {
   const [imageIndex, setImageIndex] = useState(initialImageIndex);
-  const lastIndex = Math.max(images.length - 1, 0);
+  const items = media;
+  const lastIndex = Math.max(items.length - 1, 0);
   const activeIndex = clamp(imageIndex, 0, lastIndex);
-  const image = images[activeIndex];
+  const image = items[activeIndex];
+  const videoId = getYouTubeVideoId(image?.src);
   const isActive = isOpen && Boolean(image);
   const imageDescription =
-    image?.alt?.trim() || t("yoybox.imageDescriptionNotFound");
+    (videoId
+      ? image.title?.trim() || image.alt?.trim()
+      : image?.alt?.trim() || image?.title?.trim()) ||
+    t("yoybox.imageDescriptionNotFound");
   const canNavigatePrevious = activeIndex > 0;
-  const canNavigateNext = activeIndex < images.length - 1;
+  const canNavigateNext = activeIndex < items.length - 1;
   const panelRef = useFocusTrap(isActive);
 
   const navigate = useCallback(
@@ -151,11 +159,26 @@ export function Lightbox({
     document.body.style.overflow = "hidden";
 
     function handleKeyDown(event) {
+      if (
+        event.defaultPrevented ||
+        event.altKey ||
+        event.ctrlKey ||
+        event.metaKey
+      ) {
+        return;
+      }
       if (event.key === "Escape") {
         onClose();
         return;
       }
 
+      if (
+        event.target?.closest?.(
+          'input, textarea, select, video, iframe, [contenteditable]:not([contenteditable="false"])',
+        )
+      ) {
+        return;
+      }
       if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
         event.preventDefault();
         navigate(event.key === "ArrowLeft" ? -1 : 1);
@@ -190,12 +213,20 @@ export function Lightbox({
           <CloseButton label={t("yoybox.close")} onClick={onClose} />
         </div>
         <div className={css(styles.image)}>
-          <ImageViewer
-            image={image}
-            imageDescription={imageDescription}
-            onSwipe={navigate}
-            ImageWrapper={ImageWrapper}
-          />
+          {videoId ? (
+            <YouTubeViewer
+              key={videoId}
+              videoId={videoId}
+              title={imageDescription}
+            />
+          ) : (
+            <ImageViewer
+              image={image}
+              imageDescription={imageDescription}
+              onSwipe={navigate}
+              ImageWrapper={ImageWrapper}
+            />
+          )}
         </div>
         <div className={css(styles.footer)}>
           <ArrowButton
@@ -205,7 +236,7 @@ export function Lightbox({
             onClick={() => navigate(-1)}
           />
           <div className={css(styles.caption)} aria-live="polite">
-            <Description>{imageDescription}</Description>
+            {showCaption && <Description>{imageDescription}</Description>}
           </div>
           <ArrowButton
             direction="next"

@@ -1,5 +1,5 @@
 const focusableSelector =
-  'a[href], button, input, select, textarea, [tabindex], [contenteditable="true"]';
+  'a[href], button, input, select, textarea, iframe, [tabindex], [contenteditable="true"]';
 
 function getTabStops(container) {
   const view = container.ownerDocument.defaultView;

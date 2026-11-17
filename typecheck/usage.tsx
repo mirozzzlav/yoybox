@@ -1,8 +1,8 @@
-import { Lightbox, defaultLightboxTheme } from "react-yoybox";
-import type { LightboxImage, LightboxTheme } from "react-yoybox";
+import { Yoybox, Lightbox, defaultLightboxTheme } from "react-yoybox";
+import type { LightboxMedia, LightboxTheme } from "react-yoybox";
 import type { ReactNode } from "react";
 
-const images: readonly LightboxImage[] = [{ src: "/photo.jpg", alt: "Photo" }];
+const media: readonly LightboxMedia[] = [{ src: "/photo.jpg", alt: "Photo" }];
 const theme: LightboxTheme = {
   ...defaultLightboxTheme,
   "--lightbox-text-color": "red",
@@ -12,8 +12,8 @@ function Frame({ children }: { children: ReactNode }) {
   return <div>{children}</div>;
 }
 export const example = (
-  <Lightbox
-    images={images}
+  <Yoybox
+    media={media}
     isOpen
     onClose={() => {}}
     t={(key) => key}
@@ -23,6 +23,29 @@ export const example = (
 );
 
 // @ts-expect-error onClose is required
-export const missingCallback = <Lightbox images={images} isOpen />;
+export const missingCallback = <Yoybox media={media} isOpen />;
 // @ts-expect-error each image needs a source
-export const missingSource: LightboxImage = { alt: "Photo" };
+export const missingSource: LightboxMedia = { alt: "Photo" };
+
+export const mixedGallery = (
+  <Yoybox
+    showCaption={false}
+    media={[
+      { src: "/photo.jpg", alt: "Photo" },
+      { src: "https://youtu.be/O6yMMybqBCQ", title: "Training" },
+    ]}
+    isOpen
+    onClose={() => {}}
+  />
+);
+
+export const legacyExample = (
+  <Lightbox media={media} isOpen onClose={() => {}} />
+);
+
+export const removedImages = (
+  // @ts-expect-error the images prop was replaced by media
+  <Yoybox images={media} isOpen onClose={() => {}} />
+);
+// @ts-expect-error media items always need a source URL
+export const missingMediaSource: LightboxMedia = { title: "Training" };

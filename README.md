@@ -1,11 +1,11 @@
 # Yoybox
 
-Yoybox is a standalone React image lightbox extracted from a portfolio project. It includes
+Yoybox is a standalone React lightbox for images and YouTube videos. It includes
 keyboard navigation, swipe gestures, pinch zoom (1×–3×), panning for zoomed images,
 a focus trap, blurred placeholders, translations, and CSS variable themes.
 No router or i18n provider is required.
 
-The package name is `react-yoybox`. The project has not been published yet.
+The package name is `react-yoybox`.
 Licensed under the [MIT License](LICENSE).
 
 ## Development
@@ -31,17 +31,24 @@ needed.
 
 ## Usage
 
-After building and packing the project, install the archive in another project:
+Install from npm after the release is published:
 
 ```sh
-npm install /path/to/react-yoybox-0.1.0.tgz
+npm install react-yoybox
+```
+
+To try the prepared release locally, build and pack the project, then install the
+archive in another project:
+
+```sh
+npm install /path/to/react-yoybox-0.2.0.tgz
 ```
 
 ```jsx
 import { useState } from "react";
-import { Lightbox } from "react-yoybox";
+import { Yoybox } from "react-yoybox";
 
-const images = [
+const media = [
   {
     src: "/photo.webp",
     alt: "Mountain landscape",
@@ -56,7 +63,7 @@ export function Gallery() {
     <>
       <button onClick={() => setIsOpen(true)}>Open gallery</button>
       {isOpen && (
-        <Lightbox images={images} isOpen onClose={() => setIsOpen(false)} />
+        <Yoybox media={media} isOpen onClose={() => setIsOpen(false)} />
       )}
     </>
   );
@@ -68,23 +75,42 @@ also keep the component mounted and toggle `isOpen`; it will retain the last ima
 index. `initialImageIndex` is only read on mount. To start at a different index
 when reopening, unmount the component or change its React `key`.
 
+The main component export is `Yoybox`. The original `Lightbox` export remains
+available as an alias. Both use the `media` prop in version 0.2.0.
+
+## Migrating from 0.1.0
+
+Rename the `images` prop to `media`. In TypeScript, replace the removed
+`LightboxImage` type with `LightboxMedia`. You can keep importing `Lightbox`, or
+switch to `Yoybox`; `LightboxProps` remains available alongside `YoyboxProps`.
+
+```jsx
+// Before (0.1.0)
+<Lightbox images={photos} isOpen={isOpen} onClose={onClose} />;
+
+// After (0.2.0)
+<Yoybox media={photos} isOpen={isOpen} onClose={onClose} />;
+```
+
 ## Props
 
-| Prop                | Type                               | Default behavior                                  |
-| ------------------- | ---------------------------------- | ------------------------------------------------- |
-| `images`            | `{ src, alt?, placeholderSrc? }[]` | An empty gallery renders nothing                  |
-| `isOpen`            | `boolean`                          | Controls whether the lightbox is open             |
-| `onClose`           | `() => void`                       | Required callback; the parent closes the lightbox |
-| `initialImageIndex` | `number`                           | `0`; out-of-range values are clamped              |
-| `title`             | `string`                           | Accessible name; otherwise the image description  |
-| `t`                 | `(key) => string`                  | English controls                                  |
-| `ImageWrapper`      | React component with `children`    | No custom frame                                   |
-| `theme`             | Object containing CSS variables    | Default light theme                               |
-| `className`         | `string`                           | Class applied to the portal root                  |
+| Prop                | Type                                       | Default behavior                                  |
+| ------------------- | ------------------------------------------ | ------------------------------------------------- |
+| `media`             | `{ src, alt?, title?, placeholderSrc? }[]` | An empty gallery renders nothing                  |
+| `isOpen`            | `boolean`                                  | Controls whether the lightbox is open             |
+| `onClose`           | `() => void`                               | Required callback; the parent closes the lightbox |
+| `initialImageIndex` | `number`                                   | `0`; out-of-range values are clamped              |
+| `title`             | `string`                                   | Accessible name; otherwise the image description  |
+| `showCaption`       | `boolean`                                  | `true`; shows the active media description        |
+| `t`                 | `(key) => string`                          | English controls                                  |
+| `ImageWrapper`      | React component with `children`            | No custom frame                                   |
+| `theme`             | Object containing CSS variables            | Default light theme                               |
+| `className`         | `string`                                   | Class applied to the portal root                  |
 
-Provide a valid `src` for each image; `alt` is recommended. If `alt` is missing or
-empty, a translated fallback description is used. A dedicated error view for
-failed image requests is not currently implemented.
+Provide a valid `src` for each item. Images use `alt`, then `title`, as their
+description; YouTube videos use `title`, then `alt`. If both are missing or empty,
+a translated fallback description is used. A dedicated error view for failed
+image requests is not currently implemented.
 
 The component returns `null` on the server and renders a portal into
 `document.body` in the browser. In React Server Components environments, use it
@@ -116,12 +142,12 @@ const translations = {
 };
 const t = (key) => translations[key] ?? key;
 
-<Lightbox images={images} isOpen={isOpen} onClose={onClose} t={t} />;
+<Yoybox media={media} isOpen={isOpen} onClose={onClose} t={t} />;
 ```
 
 You can also pass an existing function from your i18n system. When you provide
 `t`, your application is responsible for its output and fallback behavior. The
-component does not translate `images[].alt` or `title`; provide them in the chosen
+component does not translate `media[].alt` or `title`; provide them in the chosen
 language.
 
 ## ImageWrapper
@@ -144,8 +170,8 @@ function PhotoFrame({ children }) {
   );
 }
 
-<Lightbox
-  images={images}
+<Yoybox
+  media={media}
   isOpen={isOpen}
   onClose={onClose}
   ImageWrapper={PhotoFrame}
@@ -160,10 +186,10 @@ around the placeholder; avoid adding interactive elements or duplicate IDs to it
 ## Theming
 
 ```jsx
-import { Lightbox, defaultLightboxTheme } from "react-yoybox";
+import { Yoybox, defaultLightboxTheme } from "react-yoybox";
 
-<Lightbox
-  images={images}
+<Yoybox
+  media={media}
   isOpen={isOpen}
   onClose={onClose}
   theme={{
@@ -188,3 +214,37 @@ Tests cover navigation, gallery boundaries, translation keys, closing with the
 button, Escape key, and backdrop click, focus management, scroll locking,
 wrappers, themes, SSR, and touch gesture geometry. Interaction tests use JSDOM;
 verify actual layout, image loading, and multi-touch gestures on devices as well.
+
+## Mixed image and YouTube galleries
+
+Pass all items through `media`. Each item has a `src`; Yoybox detects YouTube
+watch, youtu.be, embed, Shorts and live URLs and displays other sources as images.
+No `type` or extracted video ID is needed. The former `images` prop is removed;
+rename it to `media`. `initialImageIndex` selects any item in a mixed gallery
+and retains its mount-only behavior.
+
+```jsx
+<Yoybox
+  media={[
+    { src: "/photo.webp", alt: "Training", placeholderSrc: "/thumb.webp" },
+    { src: "https://youtu.be/O6yMMybqBCQ", title: "Aikido demonstration" },
+  ]}
+  isOpen={isOpen}
+  onClose={onClose}
+/>
+```
+
+Only the active YouTube player is mounted. Switching items or closing removes
+it, stopping playback. Players use `youtube-nocookie.com`, load only when their
+item opens, and provide native video fullscreen. Unrecognized or invalid YouTube URLs are treated as image sources and never
+used directly as iframe URLs. Image wrappers and zoom/swipe gestures apply only to images; use the
+navigation buttons to leave a video. No thumbnail strip is added.
+
+Keyboard events inside a YouTube iframe belong to YouTube and do not reach the
+parent document; Escape and gallery shortcuts work when focus is outside the
+player. The player is included in the dialog's tab order. Verify keyboard
+navigation, fullscreen and touch interactions in real browsers as well as tests.
+
+Set `showCaption={false}` to hide the visible caption while retaining image alt
+text, the player title and the dialog's accessible name. Captions are shown by
+default, preserving existing galleries.

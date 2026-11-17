@@ -1,9 +1,9 @@
 import { StrictMode, useState } from "react";
 import { createRoot } from "react-dom/client";
-import { Lightbox } from "../src/index.js";
+import { Yoybox } from "../src/index.js";
 import "./style.css";
 
-const images = [
+const media = [
   { src: "/landscape.svg", alt: "Mountain landscape at sunset" },
   { src: "/portrait.svg", alt: "Abstract portrait composition" },
 ];
@@ -63,7 +63,7 @@ export function Demo() {
         </label>
       </div>
       <div className="gallery">
-        {images.map((image, index) => (
+        {media.map((image, index) => (
           <button
             key={image.src}
             onClick={() => setPreview(index)}
@@ -74,8 +74,8 @@ export function Demo() {
         ))}
       </div>
       {preview !== null && (
-        <Lightbox
-          images={images}
+        <Yoybox
+          media={media}
           initialImageIndex={preview}
           isOpen
           onClose={() => setPreview(null)}
